@@ -7,7 +7,7 @@ import os
 import google.generativeai as genai
 from dotenv import load_dotenv
 from nltk.corpus import stopwords
-from nltk.stem import PorterStemmer
+from nltk.stem import WordNetLemmatizer
 from pathlib import Path
 
 # Initialize the Flask application
@@ -52,45 +52,76 @@ print("="*50 + "\n")
 
 # --- load NLTK ---
 nltk.download('stopwords')
+nltk.download('wordnet')
 stop_words = set(stopwords.words('english'))
-ps = PorterStemmer()
+lemmatizer = WordNetLemmatizer()
 
 # --- load model ---
 try:
-    model = joblib.load('TF-IDF and SVM/movie_genre_model.pkl')
+    model = joblib.load('TF-IDF and SVM/movie_genre_multilabel_svm.pkl')
     tfidf = joblib.load('TF-IDF and SVM/tfidf_vectorizer.pkl')
-    print("Model loaded successfully!")
+    mlb = joblib.load('TF-IDF and SVM/genre_binarizer.pkl') 
+    print("✅ Multi-Label Model, Vectorizer, and Binarizer loaded successfully!")
 except Exception as e:
-    print(f"Error loading model: {e}")
+    print(f"❌ Error loading models: {e}")
     model = None
     tfidf = None
+    mlb = None
 
 # --- Core function: text cleaning ---
 def clean_text(text):
     if not text: return ""
-    text = re.sub(r'[^a-zA-Z]', ' ', str(text)).lower()
+    
+    # 1. 移除特殊字符
+    text = re.sub(r'[^a-zA-Z]', ' ', str(text))
+    # 2. 转小写
+    text = text.lower()
+    # 3. 分词 + Lemmatization + 去停用词 + 长度过滤
     words = text.split()
-    words = [ps.stem(w) for w in words if w not in stop_words]
+    words = [
+        lemmatizer.lemmatize(w)
+        for w in words
+        if w not in stop_words and len(w) > 2
+    ]
     return " ".join(words)
 
-# --- API Interface 1: Movie Classification Prediction ---
+# --- API Interface 1: Movie Classification Prediction (Updated) ---
 @app.route('/api/predict', methods=['POST'])
 def predict():
     data = request.json
     text = data.get('text', '')
     
-    if not model or not tfidf:
-        return jsonify({'error': 'Model not loaded'}), 500
+    if not model or not tfidf or not mlb:
+        return jsonify({'error': 'Models not loaded correctly on server.'}), 500
     
     if not text:
         return jsonify({'error': 'No text provided'}), 400
 
     try:
+        # 1. 清洗文本
         cleaned_input = clean_text(text)
+        
+        # 2. 向量化
         input_vector = tfidf.transform([cleaned_input])
-        prediction = model.predict(input_vector)[0]
-        return jsonify({'genre': prediction.upper()}) 
+        
+        # 3. 预测 (返回二进制矩阵)
+        prediction_binary = model.predict(input_vector)
+        
+        # 4. 转回标签名称 (例如 [('Action', 'Thriller')])
+        predicted_labels = mlb.inverse_transform(prediction_binary)
+        
+        # 5. 处理结果
+        if predicted_labels and len(predicted_labels[0]) > 0:
+            # 将列表转换为逗号分隔的字符串: "Action, Thriller"
+            final_genre_string = ", ".join(predicted_labels[0])
+        else:
+            # 如果没预测出任何结果，返回默认值
+            final_genre_string = "Drama" 
+
+        return jsonify({'genre': final_genre_string}) 
+        
     except Exception as e:
+        print(f"Prediction Error: {e}")
         return jsonify({'error': str(e)}), 500
 
 # --- API Interface 2: Chatbot (Gemini) ---
