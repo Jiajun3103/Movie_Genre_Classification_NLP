@@ -16,7 +16,8 @@ export function ClassifyPage() {
   // genre prediction function
   const predictGenre = async (text: string): Promise<string> => {
     try {
-      const response = await fetch('http://127.0.0.1:5000/api/predict', {
+      //http://127.0.0.1:5000/api/predict
+      const response = await fetch('https://cinematch-1q5b.onrender.com/api/predict', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
