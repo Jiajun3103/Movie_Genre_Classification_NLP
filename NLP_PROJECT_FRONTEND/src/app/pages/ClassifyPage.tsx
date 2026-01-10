@@ -176,33 +176,6 @@ export function ClassifyPage() {
             </Card>
           )}
 
-          {/* Example Prompts */}
-          <Card className="bg-gradient-to-r from-blue-50 to-indigo-50">
-            <CardHeader>
-              <CardTitle className="text-lg">Try These Example Plots</CardTitle>
-            </CardHeader>
-            <CardContent className="space-y-2">
-              <button
-                onClick={() => setPlotText("In a distant future, a crew of space explorers encounters an alien lifeform on a remote planet. As they investigate, they realize the creature is more intelligent and dangerous than they imagined.")}
-                className="w-full text-left p-3 bg-white rounded-lg hover:bg-gray-50 transition-colors text-sm border border-gray-200"
-              >
-                🚀 Sci-Fi: Space explorers meet alien lifeform...
-              </button>
-              <button
-                onClick={() => setPlotText("Two people from different worlds fall in love despite the obstacles. Their families disapprove, but their connection grows stronger as they fight to be together against all odds.")}
-                className="w-full text-left p-3 bg-white rounded-lg hover:bg-gray-50 transition-colors text-sm border border-gray-200"
-              >
-                💕 Romance: Star-crossed lovers overcome obstacles...
-              </button>
-              <button
-                onClick={() => setPlotText("A detective investigates a series of mysterious murders in the city. As the body count rises, he discovers a shocking conspiracy that threatens everything he holds dear.")}
-                className="w-full text-left p-3 bg-white rounded-lg hover:bg-gray-50 transition-colors text-sm border border-gray-200"
-              >
-                🔍 Thriller: Detective uncovers dark conspiracy...
-              </button>
-            </CardContent>
-          </Card>
-
           {/* Help Note */}
           <Card className="bg-gradient-to-r from-purple-50 to-pink-50 border-2 border-purple-200">
             <CardContent className="pt-6">
