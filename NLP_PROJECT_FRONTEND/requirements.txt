@@ -1,0 +1,4 @@
+npm install react-router-dom lucide-react framer-motion clsx tailwind-merge
+npm install -D tailwindcss postcss autoprefixer
+npx tailwindcss init -p
+npm install -D @types/react @types/react-dom
