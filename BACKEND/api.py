@@ -100,26 +100,33 @@ def predict():
     try:
         # 1. 清洗文本
         cleaned_input = clean_text(text)
-        
+
         # 2. 向量化
         input_vector = tfidf.transform([cleaned_input])
-        
-        # 3. 预测 (返回二进制矩阵)
-        prediction_binary = model.predict(input_vector)
-        
-        # 4. 转回标签名称 (例如 [('Action', 'Thriller')])
-        predicted_labels = mlb.inverse_transform(prediction_binary)
-        
-        # 5. 处理结果
-        if predicted_labels and len(predicted_labels[0]) > 0:
-            # 将列表转换为逗号分隔的字符串: "Action, Thriller"
-            final_genre_string = ", ".join(predicted_labels[0])
-        else:
-            # 如果没预测出任何结果，返回默认值
-            final_genre_string = "Drama" 
 
-        return jsonify({'genre': final_genre_string}) 
-        
+        # 3. 使用 decision_function（关键）
+        scores = model.decision_function(input_vector)
+
+        # 4. 自定义阈值（可调）
+        THRESHOLD = 0.2
+        binary_prediction = (scores >= THRESHOLD).astype(int)
+
+        # 5. 转回 genre 名称
+        predicted_labels = mlb.inverse_transform(binary_prediction)
+
+        # 6. 兜底逻辑（防止全 0）
+        if predicted_labels and len(predicted_labels[0]) > 0:
+            final_genres_list = list(predicted_labels[0])
+        else:
+            # 如果一个都没超过阈值，选 score 最高的一个
+            top_index = scores.argmax()
+            final_genres_list = [mlb.classes_[top_index]]
+
+        final_genre_string = ", ".join(final_genres_list)
+        return jsonify({
+            'genre': final_genre_string
+        })
+
     except Exception as e:
         print(f"Prediction Error: {e}")
         return jsonify({'error': str(e)}), 500
