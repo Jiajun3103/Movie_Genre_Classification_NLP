@@ -42,7 +42,9 @@ export function FloatingChatbot() {
     try {
       // 2. Send request to Python backend
       // The backend will automatically apply the Prompt defined in api.py
-      const response = await fetch('http://127.0.0.1:5000/api/chat', {
+      // 'http://127.0.0.1:5000/api/chat'
+      // 'https://cinematch-1q5b.onrender.com/api/chat'
+      const response = await fetch('https://cinematch-1q5b.onrender.com/api/chat', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',

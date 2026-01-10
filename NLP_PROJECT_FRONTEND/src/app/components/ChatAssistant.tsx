@@ -33,9 +33,10 @@ export function ChatAssistant() {
     const currentInput = input;
     setInput('');
     setIsLoading(true);
-
+//'http://127.0.0.1:5000/api/chat'
+//'https://cinematch-1q5b.onrender.com/api/chat'
     try {
-      const response = await fetch('http://127.0.0.1:5000/api/chat', {
+      const response = await fetch('https://cinematch-1q5b.onrender.com/api/chat', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ message: currentInput }),
