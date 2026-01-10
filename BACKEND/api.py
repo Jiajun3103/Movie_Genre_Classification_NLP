@@ -72,11 +72,11 @@ except Exception as e:
 def clean_text(text):
     if not text: return ""
     
-    # 1. 移除特殊字符
+    # 1. Remove special characters
     text = re.sub(r'[^a-zA-Z]', ' ', str(text))
-    # 2. 转小写
+    # 2. Turn to lowercase
     text = text.lower()
-    # 3. 分词 + Lemmatization + 去停用词 + 长度过滤
+    # 3. Participle + Lemmatization + Stopword Removal + Length Filtering
     words = text.split()
     words = [
         lemmatizer.lemmatize(w)
@@ -85,7 +85,7 @@ def clean_text(text):
     ]
     return " ".join(words)
 
-# --- API Interface 1: Movie Classification Prediction (Updated) ---
+# --- API Interface 1: Movie Classification Prediction ---
 @app.route('/api/predict', methods=['POST'])
 def predict():
     data = request.json
@@ -98,27 +98,27 @@ def predict():
         return jsonify({'error': 'No text provided'}), 400
 
     try:
-        # 1. 清洗文本
+        # 1. Cleaning Text
         cleaned_input = clean_text(text)
 
-        # 2. 向量化
+        # 2. Vectorization
         input_vector = tfidf.transform([cleaned_input])
 
-        # 3. 使用 decision_function（关键）
+        # 3. Using decision_function (key)
         scores = model.decision_function(input_vector)
 
-        # 4. 自定义阈值（可调）
+        # 4. Custom threshold (adjustable)
         THRESHOLD = 0.2
         binary_prediction = (scores >= THRESHOLD).astype(int)
 
-        # 5. 转回 genre 名称
+        # 5. Transform to genre name
         predicted_labels = mlb.inverse_transform(binary_prediction)
 
-        # 6. 兜底逻辑（防止全 0）
+        # 6. Bottom-up logic (preventing all zeros)
         if predicted_labels and len(predicted_labels[0]) > 0:
             final_genres_list = list(predicted_labels[0])
         else:
-            # 如果一个都没超过阈值，选 score 最高的一个
+            # If none of them exceed the threshold, select the one with the highest score
             top_index = scores.argmax()
             final_genres_list = [mlb.classes_[top_index]]
 
@@ -199,32 +199,31 @@ def chat():
        -> Answer: "This project was developed by Group DEY: Ding Jia Jun, Eldhon Chong Qi Jie, and Tan Yi Xin. You can find more about us at the bottom of the 'About' page."
 
     
-    --Model Accuracy: 0.40--
-    Detailed Classification Report:
-                 precision    recall  f1-score   support
+    precision    recall  f1-score   support
 
-         Action       0.40      0.46      0.43       246
-      Adventure       0.23      0.21      0.22        80
-      Animation       0.32      0.31      0.31       108
-         Comedy       0.43      0.57      0.49       392
-          Crime       0.17      0.14      0.15        74
-          Drama       0.43      0.54      0.48       472
-         Family       0.29      0.12      0.17        57
-        Fantasy       0.22      0.05      0.08        41
-        History       0.00      0.00      0.00        19
-         Horror       0.54      0.52      0.53       191
-          Music       0.00      0.00      0.00        15
-        Mystery       0.29      0.05      0.09        39
-        Romance       0.27      0.08      0.12        75
-    Science Fiction       0.18      0.17      0.18        46
-       TV Movie       0.00      0.00      0.00         1
-       Thriller       0.19      0.09      0.12       117
-            War       0.12      0.08      0.10        13
-        Western       1.00      0.21      0.35        14
+         Action       0.61      0.68      0.64       431
+      Adventure       0.44      0.60      0.51       276
+      Animation       0.57      0.57      0.57       172
+         Comedy       0.62      0.67      0.65       710
+          Crime       0.55      0.60      0.57       293
+          Drama       0.68      0.67      0.67       950
+         Family       0.55      0.58      0.57       209
+        Fantasy       0.51      0.53      0.52       209
+        History       0.43      0.31      0.36       122
+         Horror       0.62      0.63      0.63       288
+          Music       0.51      0.34      0.41        56
+        Mystery       0.37      0.39      0.38       204
+        Romance       0.56      0.58      0.57       375
+Science Fiction       0.68      0.68      0.68       222
+       TV Movie       0.67      0.21      0.32        19
+       Thriller       0.59      0.63      0.61       548
+            War       0.60      0.40      0.48        70
+        Western       0.50      0.22      0.30        23
 
-       accuracy                           0.40      2000
-      macro avg       0.28      0.20      0.21      2000
-    weighted avg       0.37      0.40      0.37      2000
+      micro avg       0.58      0.61      0.60      5177
+      macro avg       0.56      0.52      0.52      5177
+   weighted avg       0.59      0.61      0.59      5177
+    samples avg       0.59      0.63      0.58      5177
 
     --- TONE ---
     - Be professional, natural, helpful, and concise.

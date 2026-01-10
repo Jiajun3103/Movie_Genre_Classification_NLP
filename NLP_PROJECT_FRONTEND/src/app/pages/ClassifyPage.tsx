@@ -164,7 +164,7 @@ export function ClassifyPage() {
                   <p className="text-4xl font-bold text-green-600 mb-4">{prediction}</p>
                   <Progress value={100} className="h-2 mb-2" />
                   <p className="text-xs text-gray-500">
-                    Classification based on trained SVM Model (Accuracy: 40%)
+                    Classification based on trained SVM Model (Accuracy: 60%)
                   </p>
                 </div>
                 <div className="bg-blue-50 border border-blue-200 rounded-lg p-4">

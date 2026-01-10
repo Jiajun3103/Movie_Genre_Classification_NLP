@@ -142,13 +142,13 @@ export function AboutPage() {
                   <div className="space-y-3">
                     <div className="flex justify-between items-center">
                       <span className="text-sm font-medium">Accuracy</span>
-                      <span className="text-2xl font-bold text-green-600">40%</span>
+                      <span className="text-2xl font-bold text-green-600">60%</span>
                     </div>
                     <div className="w-full bg-gray-200 rounded-full h-2">
                       <div className="bg-green-600 h-2 rounded-full" style={{ width: '40%' }}></div>
                     </div>
                     <p className="text-xs text-gray-600 mt-2">
-                      The 40% accuracy reflects the inherent complexity of movie genre classification, 
+                      The 60% accuracy reflects the inherent complexity of movie genre classification, 
                       where plots often span multiple genres and subjective interpretation plays a role.
                     </p>
                   </div>
