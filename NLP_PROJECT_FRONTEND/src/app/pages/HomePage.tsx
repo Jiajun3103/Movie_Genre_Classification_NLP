@@ -164,7 +164,7 @@ export function HomePage() {
             <div className="text-gray-600">Movies Analyzed</div>
           </div>
           <div>
-            <div className="text-4xl font-bold text-indigo-600 mb-2">40%</div>
+            <div className="text-4xl font-bold text-indigo-600 mb-2">60%</div>
             <div className="text-gray-600">Model Accuracy</div>
           </div>
           <div>
