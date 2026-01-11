@@ -92,7 +92,7 @@ export function ClassifyPage() {
               />
               <div className="flex items-center justify-between text-sm text-gray-500">
                 <span>{plotText.length} characters</span>
-                <span>Recommended: 100-500 characters</span>
+                <span>Recommended: 100-1000 characters</span>
               </div>
               <Button
                 onClick={handleAnalyze}
