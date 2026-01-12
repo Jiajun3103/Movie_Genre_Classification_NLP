@@ -147,7 +147,7 @@ def chat():
 
     --- KNOWLEDGE BASE (Source of Truth) ---
     1. PROJECT & TEAM:
-       - Developer: Group DEY (Ding Jia Jun, Eldhon Chong Qi Jie, Tan Yi Xin).
+       - Developer: Group DEY (Ding Jia Jun, Eldhon Cheong Qi Jie, Tan Yi Xin).
        - Goal: An NLP-based system that automatically predicts movie genres from plot summaries.
     2. TECH STACK (from About Page - Tab 1):
        - Frontend: React, Tailwind CSS.
