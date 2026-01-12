@@ -1,0 +1,149 @@
+Cinematch AI - System Manual
+1. System Overview
+Technology Stack
+Frontend: React (Vite), Tailwind CSS, Framer Motion
+Backend: Python Flask, Gunicorn
+Machine Learning: Scikit-learn (SVM, TF-IDF), NLTK
+Generative AI: Google Gemini API
+
+2. Prerequisites & Requirements
+Before installing the system, ensure your environment meets the following requirements:
+Hardware Requirements
+Operating System: Windows 10/11, macOS, or Linux.
+RAM: Minimum 8GB recommended.
+Disk Space: At least 2GB of free space.
+Internet Connection: Required for API calls (Gemini) and package installation.
+
+Software Requirements
+Node.js: Version 16.0.0 or higher.
+npm: Installed automatically with Node.js.
+Python: Version 3.11 or higher.
+Git: For version control (optional but recommended).
+
+3. Backend Setup (Python/Flask)
+The backend handles the machine learning model predictions and chatbot logic.
+
+Step 3.1: Navigate to Backend Directory
+Open your terminal and navigate to the backend folder:
+cd BACKEND
+
+Step 3.2: Virtual Environment (Optional but Recommended)
+It is best practice to run the backend in an isolated environment.
+# Windows
+python -m venv venv
+.\venv\Scripts\activate
+
+# Mac/Linux
+python3 -m venv venv
+source venv/bin/activate
+Step 3.3: Install Dependencies
+
+--Install all required Python libraries using the requirements.txt file.
+Required Libraries:
+
+pandas
+scikit-learn
+nltk
+joblib
+google-generativeai
+python-dotenv
+flask
+flask-cors
+gunicorn
+
+--Installation Command:
+pip install -r requirements.txt
+
+(Or install manually: pip install pandas scikit-learn nltk joblib google-generativeai python-dotenv flask flask-cors gunicorn)
+
+Step 3.4: Configuration (.env)
+--Create a file named .env inside the BACKEND folder. Add your Google Gemini API key:
+GEMINI_API_KEY=your_actual_api_key_here
+Step 3.5: Run the Server
+
+--Start the Flask development server:
+python api.py
+
+You should see output indicating the server is running on http://127.0.0.1:5000.
+
+4. Frontend Setup (React)
+
+The frontend provides the user interface.
+Step 4.1: Navigate to Frontend Directory
+Open a new terminal window (keep the backend running) and navigate to the frontend folder:
+cd NLP_PROJECT_FRONTEND
+
+Step 4.2: Install Dependencies
+Run the following commands to install React, Tailwind CSS, and utility libraries:
+1. Core Dependencies:
+
+npm install
+
+# OR if installing manually based on requirements:
+npm install react-router-dom lucide-react framer-motion clsx tailwind-merge
+
+2. Development Dependencies (Typescript & Tailwind):
+
+npm install -D tailwindcss postcss autoprefixer
+npm install -D @types/react @types/react-dom
+
+3. Initialize Tailwind Configuration:
+
+npx tailwindcss init -p
+
+Step 4.3: Start the Application
+
+Run the development server:
+
+npm run dev
+
+You should see a local URL, typically http://localhost:5173. Open this in your browser.
+
+5. Deployment Guide (Render)
+
+If deploying to a production environment (like Render), follow these specific configurations.
+
+Backend Deployment (Web Service)
+
+Build Command: pip install -r requirements.txt
+
+Start Command: gunicorn api:app
+
+Environment Variables: Add GEMINI_API_KEY in the dashboard settings.
+
+Frontend Deployment (Static Site)
+
+Build Command: npm install; npm run build
+
+Publish Directory: dist
+
+Rewrites: Ensure a rewrite rule is added:
+
+Source: /*
+
+Destination: /index.html (To support React Router).
+
+6. Directory Structure
+
+Ensure your file structure looks like this for the system to function correctly:
+
+PROJECT_ROOT/
+├── .gitignore
+├── BACKEND/
+│   ├── .env                 # API Keys
+│   ├── api.py               # Main Flask Application
+│   ├── requirements.txt     # Python Dependencies
+│   └── TF-IDF and SVM/      # Model Files
+│       ├── movie_genre_multilabel_svm.pkl
+│       ├── tfidf_vectorizer.pkl
+│       └── genre_binarizer.pkl
+│
+└── NLP_PROJECT_FRONTEND/
+    ├── package.json         # Node Dependencies
+    ├── vite.config.js
+    ├── index.html
+    └── src/
+        ├── main.tsx
+        └── app/
+            ├── App.tsx
+            └── pages/       # React Pages
