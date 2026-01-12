@@ -341,7 +341,7 @@ export function AboutPage() {
                 <p className="text-sm text-blue-900">
                   <strong>Member:</strong> <br />
                   <strong>1.</strong> DING JIA JUN<br />
-                  <strong>2.</strong> ELDHON CHONG QI JIE<br />
+                  <strong>2.</strong> ELDHON CHEONG QI JIE<br />
                   <strong>3.</strong> TAN YI XIN
                 </p>
               </div>
