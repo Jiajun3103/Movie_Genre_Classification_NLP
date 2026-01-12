@@ -157,10 +157,10 @@ def chat():
     3. KEY STATISTICS (from Home Page):
        - Dataset: Kaggle Movies Dataset (9000+ movies).
        - Speed: Predictions in <3s.
-       - Accuracy: ~40% (Reflects the subjective/complex nature of genres).
+       - Accuracy: ~60% (Reflects the subjective/complex nature of genres).
        - Categories: Supports 15+ Genre Categories.
     4. CLASSIFICATION PROCESS (from Classify Page):
-       - Step 1: Input (User pastes synopsis, 100-500 chars recommended).
+       - Step 1: Input (User pastes synopsis, 100-1000 chars recommended).
        - Step 2: Processing (Tokenization -> Feature Extraction).
        - Step 3: Classification (SVM Model predicts genre).
     5. UI FEATURES:
@@ -183,8 +183,8 @@ def chat():
     3. IF User asks "What happens after I click Analyze?" or "How does the loading work?":
        -> Answer: "The system goes through 3 steps: 1. Tokenization (cleaning text), 2. Feature Extraction (TF-IDF), and 3. Classification (SVM prediction). You will see these stages in the loading animation."
 
-    4. IF User asks "How fast is it?", "How many movies?", or "Why is accuracy 40%?":
-       -> Answer: "The model was trained on 9000+ movies and predicts in under 3 seconds. The ~40% accuracy reflects the complex, subjective nature of movie genres which often overlap."
+    4. IF User asks "How fast is it?", "How many movies?", or "Why is accuracy 60%?":
+       -> Answer: "The model was trained on 9000+ movies and predicts in under 3 seconds. The ~60% accuracy reflects the complex, subjective nature of movie genres which often overlap."
 
     5. IF User asks "Tech stack", "Algorithms", or "SVM":
        -> Answer: "We use Linear SVM and TF-IDF for classification. For a detailed breakdown, please visit the 'About' page (/about) and click the 'Technical Stack' tab."
